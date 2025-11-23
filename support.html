@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Center | CYBERBEANS</title>
+    <style>
+        :root {
+            --primary-color: #00F3FF; /* 赛博蓝 */
+            --bg-color: #0e0e0e;
+            --card-bg: #1c1c1c;
+            --text-color: #ffffff;
+            --gray-text: #a1a1a1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 顶部导航 */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            background: rgba(14, 14, 14, 0.95);
+        }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: white; text-decoration: none;}
+        .logo span { color: var(--primary-color); }
+        .back-link { font-size: 14px; color: var(--gray-text); text-decoration: none; transition: 0.3s; }
+        .back-link:hover { color: white; }
+
+        /* 标题区 */
+        .page-title {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        .page-title h1 { font-size: 32px; margin-bottom: 10px; }
+        .page-title p { color: var(--gray-text); font-size: 16px; }
+
+        /* 文档列表网格 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* 产品卡片样式 */
+        .doc-card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 25px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .doc-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.1);
+        }
+
+        .card-header { margin-bottom: 20px; }
+        .product-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; color: white; }
+        .model-tag { 
+            font-size: 12px; 
+            background: #333; 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        /* 按钮样式 */
+        .btn-group { display: flex; gap: 10px; flex-direction: column; }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        /* 下载按钮 (主要) */
+        .btn-download {
+            background: white;
+            color: black;
+            border: 1px solid white;
+        }
+        .btn-download:hover { background: #ddd; }
+
+        /* 视频按钮 (次要) */
+        .btn-video {
+            background: transparent;
+            color: white;
+            border: 1px solid #555;
+        }
+        .btn-video:hover { border-color: white; }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">CYBER<span>BEANS</span></a>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </header>
+
+    <div class="page-title">
+        <h1>Installation Guide</h1>
+        <p>Select your product to download manuals or watch tutorials.</p>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+
+            <!-- 产品 1: 挡泥板 -->
+            <div class="doc-card">
+                <div class="card-header">
+                    <div class="product-name">No-Drill Mud Flaps</div>
+                    <span class="model-tag">Model 3 / Y</span>
+                </div>
+                <div class="btn-group">
+                    <!-- 这里的 href 填你的 PDF 文件名 -->
+                    <a href="mud-flaps-manual.pdf" target="_blank" class="btn btn-download">
+                        📄 Download PDF Guide
+                    </a>
+                    <!-- 这里的 href 可以填 YouTube 视频链接，如果没有就删掉这一行 -->
+                    <a href="#" class="btn btn-video">
+                        ▶ Watch Install Video
+                    </a>
+                </div>
+            </div>
+
+            <!-- 产品 2: 水杯座 -->
+            <div class="doc-card">
+                <div class="card-header">
+                    <div class="product-name">Silicone Cup Holder</div>
+                    <span class="model-tag">Model 3 / Y (2021+)</span>
+                </div>
+                <div class="btn-group">
+                    <a href="cup-holder-manual.pdf" target="_blank" class="btn btn-download">
+                        📄 Download PDF Guide
+                    </a>
+                </div>
+            </div>
+
+            <!-- 产品 3: 空调滤芯 -->
+            <div class="doc-card">
+                <div class="card-header">
+                    <div class="product-name">HEPA Air Filter (2-Pack)</div>
+                    <span class="model-tag">Model 3 / Y</span>
+                </div>
+                <div class="btn-group">
+                    <a href="air-filter-manual.pdf" target="_blank" class="btn btn-download">
+                        📄 Download PDF Guide
+                    </a>
+                    <a href="#" class="btn btn-video">
+                        ▶ Watch Install Video
+                    </a>
+                </div>
+            </div>
+
+            <!-- 产品 4: 脚垫 -->
+            <div class="doc-card">
+                <div class="card-header">
+                    <div class="product-name">3D All-Weather Floor Mats</div>
+                    <span class="model-tag">Model Y</span>
+                </div>
+                <div class="btn-group">
+                    <a href="floor-mats-manual.pdf" target="_blank" class="btn btn-download">
+                        📄 Download PDF Guide
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>Need extra help? Contact us via Amazon Messaging.</p>
+        <p>&copy; 2024 CYBERBEANS. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
