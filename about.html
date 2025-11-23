@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - CYBERBEANS</title>
+    <meta name="description" content="了解CYBERBEANS品牌故事，我们的使命是为特斯拉车主提供最优质的配件产品和服务">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --electric-blue: #00d4ff;
+            --titanium-silver: #c0c0c0;
+            --pure-black: #000000;
+        }
+        
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'ZCOOL KuaiLe', cursive;
+        }
+        
+        body {
+            background: var(--pure-black);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--electric-blue), var(--titanium-silver));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .timeline-item {
+            opacity: 0;
+        }
+        
+        .team-card {
+            opacity: 0;
+        }
+        
+        #particles-container {
+            pointer-events: none;
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Container -->
+    <div id="particles-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center glow-effect">
+                        <span class="text-white font-bold text-lg">CB</span>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text font-display">CYBERBEANS</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">首页</a>
+                    <a href="products.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">产品中心</a>
+                    <a href="about.html" class="text-white hover:text-blue-400 transition-colors font-medium">关于我们</a>
+                    <a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">联系我们</a>
+                    
+                    <!-- Cart Icon -->
+                    <div class="relative">
+                        <button id="cart-icon" class="relative p-2 text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0h9"></path>
+                            </svg>
+                            <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-90">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">首页</a>
+                <a href="products.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">产品中心</a>
+                <a href="about.html" class="block px-3 py-2 text-white hover:text-blue-400">关于我们</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">联系我们</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Page Header -->
+    <section class="pt-24 pb-12 bg-gradient-to-b from-black to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">
+                    <span class="gradient-text font-display">关于我们</span>
+                </h1>
+                <p class="text-xl text-gray-300">创新科技，精工品质，用户至上</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Brand Story Section -->
+    <section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">
+                        <span class="gradient-text">品牌故事</span>
+                    </h2>
+                    <div class="space-y-6 text-gray-300 leading-relaxed">
+                        <p>
+                            CYBERBEANS诞生于2020年，由一群热爱特斯拉的工程师和设计师创立。
+                            我们深知特斯拉车主对品质和创新的追求，因此致力于为每一位特斯拉车主提供最优质的配件产品。
+                        </p>
+                        <p>
+                            品牌名称中的"CYBER"代表我们对科技创新的追求，"BEANS"象征着我们如咖啡豆般精心研磨每一款产品，
+                            确保每一个细节都达到完美。我们相信，好的配件不仅仅是功能的补充，更是驾驶体验的升华。
+                        </p>
+                        <p>
+                            从第一款智能杯架的诞生，到如今覆盖内饰、外观、功能性的完整产品线，
+                            CYBERBEANS始终坚持"德国工艺，中国智造"的理念，为特斯拉生态贡献我们的力量。
+                        </p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="resources/cyberbeans-logo.jpg" alt="CYBERBEANS品牌" class="w-full h-96 object-cover rounded-2xl glow-effect">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-2xl"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">我们的使命</h3>
+                        <p class="text-gray-300">让每一辆特斯拉都更加完美</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Mission & Vision -->
+    <section class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">使命与愿景</span>
+                </h2>
+                <p class="text-xl text-gray-300">我们的目标是为特斯拉生态贡献价值</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Mission -->
+                <div class="bg-gray-800 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4 text-white">我们的使命</h3>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        通过创新的产品设计和卓越的制造工艺，为特斯拉车主提供高品质的配件解决方案，
+                        提升驾驶体验，彰显个性品味，推动电动汽车配件行业的发展。
+                    </p>
+                </div>
+                
+                <!-- Vision -->
+                <div class="bg-gray-800 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4 text-white">我们的愿景</h3>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        成为全球领先的特斯拉配件品牌，以创新科技和精工品质赢得用户信赖，
+                        构建完整的特斯拉生态系统，让每一位车主都能享受到完美的驾驶体验。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Company Timeline -->
+    <section class="py-20 bg-gradient-to-b from-black to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">发展历程</span>
+                </h2>
+                <p class="text-xl text-gray-300">从创立到现在，我们的成长足迹</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-blue-600"></div>
+                
+                <!-- Timeline Items -->
+                <div class="space-y-12">
+                    <!-- 2020 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
+                                <h3 class="text-xl font-bold text-white mb-2">2020年 - 品牌创立</h3>
+                                <p class="text-gray-300">CYBERBEANS正式成立，专注于特斯拉配件研发</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-blue-400 font-semibold">里程碑</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2021 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="text-blue-400 font-semibold">首款产品</div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
+                                <h3 class="text-xl font-bold text-white mb-2">2021年 - 智能杯架</h3>
+                                <p class="text-gray-300">推出首款智能杯架产品，获得用户好评</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2022 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
+                                <h3 class="text-xl font-bold text-white mb-2">2022年 - 产品线扩展</h3>
+                                <p class="text-gray-300">完成内饰配件全产品线布局，覆盖Model 3/Y</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-blue-400 font-semibold">成长</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2023 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="text-blue-400 font-semibold">突破</div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
+                                <h3 class="text-xl font-bold text-white mb-2">2023年 - 技术创新</h3>
+                                <p class="text-gray-300">推出高效滤芯技术，获得多项专利认证</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2024 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
+                                <h3 class="text-xl font-bold text-white mb-2">2024年 - 市场领先</h3>
+                                <p class="text-gray-300">成为国内特斯拉配件市场领导品牌</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-blue-400 font-semibold">现在</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Team Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">核心团队</span>
+                </h2>
+                <p class="text-xl text-gray-300">专业团队，为品质保驾护航</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Team Member 1 -->
+                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+                        <span class="text-white text-2xl font-bold">李</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">李创新</h3>
+                    <p class="text-blue-400 mb-3">创始人 & CEO</p>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        前特斯拉工程师，10年汽车行业经验，致力于推动电动汽车配件创新。
+                    </p>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+                        <span class="text-white text-2xl font-bold">王</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">王设计</h3>
+                    <p class="text-blue-400 mb-3">设计总监</p>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        德国工业设计硕士，专注用户体验设计，曾获红点设计大奖。
+                    </p>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+                        <span class="text-white text-2xl font-bold">张</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">张技术</h3>
+                    <p class="text-blue-400 mb-3">技术总监</p>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        材料科学博士，专注新材料研发，拥有多项专利技术。
+                    </p>
+                </div>
+                
+                <!-- Team Member 4 -->
+                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+                        <span class="text-white text-2xl font-bold">陈</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">陈品质</h3>
+                    <p class="text-blue-400 mb-3">品质总监</p>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        前德系品牌质量工程师，严格把控每一个生产环节。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Values Section -->
+    <section class="py-20 bg-gradient-to-b from-black to-gray-900 parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('resources/product-showcase.jpg');">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">核心价值观</span>
+                </h2>
+                <p class="text-xl text-gray-300">指导我们前进的核心理念</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Value 1 -->
+                <div class="text-center bg-black bg-opacity-50 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">创新驱动</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        持续投入研发，不断探索新技术、新材料、新工艺，
+                        为用户提供更智能、更实用的产品解决方案。
+                    </p>
+                </div>
+                
+                <!-- Value 2 -->
+                <div class="text-center bg-black bg-opacity-50 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">品质至上</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        严格的质量控制体系，每一个产品都经过多重检测，
+                        确保符合最高标准，为用户提供可靠的使用体验。
+                    </p>
+                </div>
+                
+                <!-- Value 3 -->
+                <div class="text-center bg-black bg-opacity-50 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">用户为本</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        以用户需求为导向，倾听用户声音，持续改进产品和服务，
+                        为用户创造价值，建立长期的信任关系。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Certifications -->
+    <section class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">认证资质</span>
+                </h2>
+                <p class="text-xl text-gray-300">专业认证，品质保证</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Certification 1 -->
+                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">ISO 9001</h3>
+                    <p class="text-gray-400 text-sm">质量管理体系认证</p>
+                </div>
+                
+                <!-- Certification 2 -->
+                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">CE认证</h3>
+                    <p class="text-gray-400 text-sm">欧盟安全认证</p>
+                </div>
+                
+                <!-- Certification 3 -->
+                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">RoHS</h3>
+                    <p class="text-gray-400 text-sm">环保认证</p>
+                </div>
+                
+                <!-- Certification 4 -->
+                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">专利认证</h3>
+                    <p class="text-gray-400 text-sm">多项技术专利</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-b from-black to-gray-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-6">
+                <span class="gradient-text">加入我们的旅程</span>
+            </h2>
+            <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                与CYBERBEANS一起，为您的特斯拉打造完美的驾驶体验。
+                探索我们的产品，感受科技与品质的完美结合。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="products.html" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 glow-effect">
+                    探索产品
+                </a>
+                <a href="contact.html" class="border border-gray-600 hover:border-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300">
+                    联系我们
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Cart Sidebar -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-gray-900 transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center justify-between p-6 border-b border-gray-700">
+            <h3 class="text-xl font-semibold text-white">购物车</h3>
+            <button id="cart-close" class="text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto">
+            <div class="p-6 text-center text-gray-400">
+                购物车为空
+            </div>
+        </div>
+        <div class="p-6 border-t border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-white font-semibold">总计:</span>
+                <span id="cart-total" class="text-blue-400 font-bold text-xl">¥0.00</span>
+            </div>
+            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                立即结算
+            </button>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-black py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center glow-effect">
+                        <span class="text-white font-bold text-lg">CB</span>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text font-display">CYBERBEANS</span>
+                </div>
+                <p class="text-gray-400 mb-6">专业特斯拉配件品牌 - 创新科技，精工品质</p>
+                <p class="text-gray-500 text-sm">© 2024 CYBERBEANS. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    
+    <script>
+        // Timeline and team animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Timeline animation
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateX: [entry.target.querySelector('.text-right') ? -50 : 50, 0],
+                            duration: 800,
+                            easing: 'easeOutQuart'
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                timelineObserver.observe(item);
+            });
+            
+            // Team cards animation
+            const teamObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateY: [30, 0],
+                            duration: 600,
+                            easing: 'easeOutQuart'
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            document.querySelectorAll('.team-card').forEach(card => {
+                teamObserver.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
