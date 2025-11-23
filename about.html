@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我们 - CYBERBEANS</title>
+    <title>Brand Story - CYBERBEANS</title>
     <meta name="description" content="了解CYBERBEANS品牌故事，我们的使命是为特斯拉车主提供最优质的配件产品和服务">
     
     <!-- Tailwind CSS -->
@@ -21,10 +21,12 @@
     <!-- Custom Styles -->
     <style>
         :root {
-            --primary-dark: #1a1a1a;
-            --electric-blue: #00d4ff;
-            --titanium-silver: #c0c0c0;
-            --pure-black: #000000;
+            --primary-bg: #FFFFFF;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --link-color: #0066CC;
+            --accent-blue: #00D4FF;
+            --border-color: #D2D2D7;
         }
         
         * {
@@ -36,34 +38,110 @@
         }
         
         body {
-            background: var(--pure-black);
-            color: white;
+            background: var(--primary-bg);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
         
-        .gradient-text {
-            background: linear-gradient(135deg, var(--electric-blue), var(--titanium-silver));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
         
-        .glow-effect {
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        .nav-item {
+            position: relative;
         }
         
-        .card-hover {
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            min-width: 300px;
+            z-index: 1000;
+        }
+        
+        .dropdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .dropdown-item {
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
             transition: all 0.3s ease;
         }
         
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        .dropdown-item:hover {
+            background: #f5f5f7;
+            transform: scale(1.02);
         }
         
-        .nav-blur {
-            backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.8);
+        .dropdown-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .dropdown-item h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .dropdown-item p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .btn-primary {
+            background: var(--link-color);
+            color: white;
+            border-radius: 980px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: #0051A2;
+            transform: scale(1.02);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--link-color);
+            border: 1px solid var(--link-color);
+            border-radius: 980px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--link-color);
+            color: white;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-blue), #007AFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .timeline-item {
@@ -74,8 +152,14 @@
             opacity: 0;
         }
         
-        #particles-container {
-            pointer-events: none;
+        .cart-sidebar {
+            background: white;
+            border-left: 1px solid var(--border-color);
+        }
+        
+        .mobile-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
         }
         
         .parallax-bg {
@@ -84,45 +168,208 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        
+        .feature-card {
+            background: white;
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .timeline-line {
+            background: linear-gradient(to bottom, var(--accent-blue), #007AFF);
+        }
+        
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                transform: none;
+                border-radius: 0;
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+            
+            .dropdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Particles Container -->
-    <div id="particles-container"></div>
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-14">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center glow-effect">
-                        <span class="text-white font-bold text-lg">CB</span>
-                    </div>
-                    <span class="text-2xl font-bold gradient-text font-display">CYBERBEANS</span>
+                    <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">CB</span>
+                        </div>
+                        <span class="text-xl font-bold gradient-text font-display">CYBERBEANS</span>
+                    </a>
                 </div>
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">首页</a>
-                    <a href="products.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">产品中心</a>
-                    <a href="about.html" class="text-white hover:text-blue-400 transition-colors font-medium">关于我们</a>
-                    <a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">联系我们</a>
+                    <!-- Model S -->
+                    <div class="nav-item">
+                        <a href="products.html?model=models" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model S</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-s-accessories.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥349起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/air-filter-technology.jpg" alt="空调滤芯">
+                                    <h4>空调滤芯</h4>
+                                    <p>¥249起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/model-s-accessories.jpg" alt="刹车踏板">
+                                    <h4>刹车踏板</h4>
+                                    <p>¥429起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model 3 -->
+                    <div class="nav-item">
+                        <a href="products.html?model=model3" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model 3</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-3-interior.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥299起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/air-filter-technology.jpg" alt="空调滤芯">
+                                    <h4>空调滤芯</h4>
+                                    <p>¥199起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/product-showcase.jpg" alt="脚垫">
+                                    <h4>脚垫套装</h4>
+                                    <p>¥599起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/cup-holder-detail.jpg" alt="钢化膜">
+                                    <h4>屏幕钢化膜</h4>
+                                    <p>¥159起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Y -->
+                    <div class="nav-item">
+                        <a href="products.html?model=modely" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model Y</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-y-exterior.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥329起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/air-filter-technology.jpg" alt="空调滤芯">
+                                    <h4>空调滤芯</h4>
+                                    <p>¥219起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/tesla-model-y-accessories.jpg" alt="后备箱垫">
+                                    <h4>后备箱垫</h4>
+                                    <p>¥399起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/cup-holder-detail.jpg" alt="雨刮器">
+                                    <h4>雨刮器</h4>
+                                    <p>¥279起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model X -->
+                    <div class="nav-item">
+                        <a href="products.html?model=modelx" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model X</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-x-accessories.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥379起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/model-x-accessories.jpg" alt="防踢垫">
+                                    <h4>座椅防踢垫</h4>
+                                    <p>¥299起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/model-x-accessories.jpg" alt="千斤顶垫">
+                                    <h4>千斤顶垫</h4>
+                                    <p>¥189起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cybertruck -->
+                    <div class="nav-item">
+                        <a href="products.html?model=cybertruck" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Cybertruck</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/cybertruck-accessories.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥499起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/cybertruck-accessories.jpg" alt="脚垫">
+                                    <h4>脚垫</h4>
+                                    <p>¥699起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Brand Story -->
+                    <div class="nav-item">
+                        <a href="about.html" class="text-blue-600 font-medium text-sm">Brand Story</a>
+                    </div>
+                    
+                    <!-- Support -->
+                    <div class="nav-item">
+                        <a href="contact.html" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Support</a>
+                    </div>
                     
                     <!-- Cart Icon -->
                     <div class="relative">
-                        <button id="cart-icon" class="relative p-2 text-gray-300 hover:text-white transition-colors">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="cart-icon" class="relative p-2 text-gray-900 hover:text-blue-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0h9"></path>
                             </svg>
-                            <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                         </button>
                     </div>
                 </div>
                 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                    <button id="mobile-menu-btn" class="text-gray-900 hover:text-blue-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -132,57 +379,63 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-90">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">首页</a>
-                <a href="products.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">产品中心</a>
-                <a href="about.html" class="block px-3 py-2 text-white hover:text-blue-400">关于我们</a>
-                <a href="contact.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">联系我们</a>
+        <div id="mobile-menu" class="hidden md:hidden mobile-menu">
+            <div class="px-4 py-2 space-y-1">
+                <a href="products.html?model=models" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model S</a>
+                <a href="products.html?model=model3" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model 3</a>
+                <a href="products.html?model=modely" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model Y</a>
+                <a href="products.html?model=modelx" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model X</a>
+                <a href="products.html?model=cybertruck" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Cybertruck</a>
+                <a href="about.html" class="block px-3 py-2 text-blue-600">Brand Story</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Support</a>
             </div>
         </div>
     </nav>
     
     <!-- Page Header -->
-    <section class="pt-24 pb-12 bg-gradient-to-b from-black to-gray-900">
+    <section class="pt-24 pb-12 bg-gradient-to-b from-gray-50 to-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">
-                    <span class="gradient-text font-display">关于我们</span>
+                    <span class="gradient-text font-display">Brand Story</span>
                 </h1>
-                <p class="text-xl text-gray-300">创新科技，精工品质，用户至上</p>
+                <p class="text-xl text-gray-600">创新科技，精工品质，用户至上</p>
             </div>
         </div>
     </section>
     
     <!-- Brand Story Section -->
-    <section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+    <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-4xl font-bold mb-6">
-                        <span class="gradient-text">品牌故事</span>
+                        <span class="gradient-text">Our Story</span>
                     </h2>
-                    <div class="space-y-6 text-gray-300 leading-relaxed">
+                    <div class="space-y-6 text-gray-600 leading-relaxed text-lg">
                         <p>
-                            CYBERBEANS诞生于2020年，由一群热爱特斯拉的工程师和设计师创立。
-                            我们深知特斯拉车主对品质和创新的追求，因此致力于为每一位特斯拉车主提供最优质的配件产品。
+                            CYBERBEANS was born in 2020, founded by a group of passionate Tesla engineers and designers. 
+                            We deeply understand Tesla owners' pursuit of quality and innovation, which is why we are dedicated 
+                            to providing every Tesla owner with the highest quality accessory products.
                         </p>
                         <p>
-                            品牌名称中的"CYBER"代表我们对科技创新的追求，"BEANS"象征着我们如咖啡豆般精心研磨每一款产品，
-                            确保每一个细节都达到完美。我们相信，好的配件不仅仅是功能的补充，更是驾驶体验的升华。
+                            The "CYBER" in our brand name represents our pursuit of technological innovation, while "BEANS" 
+                            symbolizes our meticulous attention to every product detail, just like carefully grinding coffee beans. 
+                            We believe that good accessories are not just functional additions, but enhancements to the driving experience.
                         </p>
                         <p>
-                            从第一款智能杯架的诞生，到如今覆盖内饰、外观、功能性的完整产品线，
-                            CYBERBEANS始终坚持"德国工艺，中国智造"的理念，为特斯拉生态贡献我们的力量。
+                            From the birth of our first smart cup holder to our current complete product line covering interior, 
+                            exterior, and functional accessories, CYBERBEANS consistently adheres to the philosophy of 
+                            "German craftsmanship, Chinese intelligence," contributing our strength to the Tesla ecosystem.
                         </p>
                     </div>
                 </div>
                 <div class="relative">
-                    <img src="resources/cyberbeans-logo.jpg" alt="CYBERBEANS品牌" class="w-full h-96 object-cover rounded-2xl glow-effect">
+                    <img src="resources/hero-apple-style.jpg" alt="CYBERBEANS Brand" class="w-full h-96 object-cover rounded-2xl shadow-2xl">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-2xl"></div>
                     <div class="absolute bottom-6 left-6 right-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">我们的使命</h3>
-                        <p class="text-gray-300">让每一辆特斯拉都更加完美</p>
+                        <h3 class="text-2xl font-bold text-white mb-2">Our Mission</h3>
+                        <p class="text-gray-300">Make every Tesla more perfect</p>
                     </div>
                 </div>
             </div>
@@ -190,42 +443,43 @@
     </section>
     
     <!-- Mission & Vision -->
-    <section class="py-20 bg-black">
+    <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">
-                    <span class="gradient-text">使命与愿景</span>
+                    <span class="gradient-text">Mission & Vision</span>
                 </h2>
-                <p class="text-xl text-gray-300">我们的目标是为特斯拉生态贡献价值</p>
+                <p class="text-xl text-gray-600">Our goal is to contribute value to the Tesla ecosystem</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <!-- Mission -->
-                <div class="bg-gray-800 rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                <div class="feature-card text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-white">我们的使命</h3>
-                    <p class="text-gray-300 text-center leading-relaxed">
-                        通过创新的产品设计和卓越的制造工艺，为特斯拉车主提供高品质的配件解决方案，
-                        提升驾驶体验，彰显个性品味，推动电动汽车配件行业的发展。
+                    <h3 class="text-2xl font-bold text-center mb-4 text-gray-900">Our Mission</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Through innovative product design and exceptional manufacturing processes, provide Tesla owners 
+                        with high-quality accessory solutions, enhance the driving experience, showcase personal taste, 
+                        and promote the development of the electric vehicle accessories industry.
                     </p>
                 </div>
                 
                 <!-- Vision -->
-                <div class="bg-gray-800 rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                <div class="feature-card text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-center mb-4 text-white">我们的愿景</h3>
-                    <p class="text-gray-300 text-center leading-relaxed">
-                        成为全球领先的特斯拉配件品牌，以创新科技和精工品质赢得用户信赖，
-                        构建完整的特斯拉生态系统，让每一位车主都能享受到完美的驾驶体验。
+                    <h3 class="text-2xl font-bold text-center mb-4 text-gray-900">Our Vision</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        Become the world's leading Tesla accessories brand, win user trust with innovative technology 
+                        and exquisite quality, build a complete Tesla ecosystem, and let every owner enjoy the perfect driving experience.
                     </p>
                 </div>
             </div>
@@ -233,45 +487,45 @@
     </section>
     
     <!-- Company Timeline -->
-    <section class="py-20 bg-gradient-to-b from-black to-gray-900">
+    <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">
-                    <span class="gradient-text">发展历程</span>
+                    <span class="gradient-text">Development Timeline</span>
                 </h2>
-                <p class="text-xl text-gray-300">从创立到现在，我们的成长足迹</p>
+                <p class="text-xl text-gray-600">Our growth journey from establishment to present</p>
             </div>
             
             <div class="relative">
                 <!-- Timeline Line -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-blue-600"></div>
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full timeline-line rounded-full"></div>
                 
                 <!-- Timeline Items -->
                 <div class="space-y-12">
                     <!-- 2020 -->
                     <div class="timeline-item flex items-center">
                         <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
-                                <h3 class="text-xl font-bold text-white mb-2">2020年 - 品牌创立</h3>
-                                <p class="text-gray-300">CYBERBEANS正式成立，专注于特斯拉配件研发</p>
+                            <div class="feature-card">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">2020 - Brand Establishment</h3>
+                                <p class="text-gray-600">CYBERBEANS officially founded, focusing on Tesla accessories R&D</p>
                             </div>
                         </div>
-                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex-shrink-0 z-10"></div>
                         <div class="w-1/2 pl-8">
-                            <div class="text-blue-400 font-semibold">里程碑</div>
+                            <div class="text-blue-600 font-semibold">Milestone</div>
                         </div>
                     </div>
                     
                     <!-- 2021 -->
                     <div class="timeline-item flex items-center">
                         <div class="w-1/2 pr-8 text-right">
-                            <div class="text-blue-400 font-semibold">首款产品</div>
+                            <div class="text-blue-600 font-semibold">First Product</div>
                         </div>
-                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex-shrink-0 z-10"></div>
                         <div class="w-1/2 pl-8">
-                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
-                                <h3 class="text-xl font-bold text-white mb-2">2021年 - 智能杯架</h3>
-                                <p class="text-gray-300">推出首款智能杯架产品，获得用户好评</p>
+                            <div class="feature-card">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">2021 - Smart Cup Holder</h3>
+                                <p class="text-gray-600">Launched first smart cup holder product, received positive user feedback</p>
                             </div>
                         </div>
                     </div>
@@ -279,27 +533,27 @@
                     <!-- 2022 -->
                     <div class="timeline-item flex items-center">
                         <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
-                                <h3 class="text-xl font-bold text-white mb-2">2022年 - 产品线扩展</h3>
-                                <p class="text-gray-300">完成内饰配件全产品线布局，覆盖Model 3/Y</p>
+                            <div class="feature-card">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">2022 - Product Line Expansion</h3>
+                                <p class="text-gray-600">Completed full interior accessories product line layout, covering Model 3/Y</p>
                             </div>
                         </div>
-                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex-shrink-0 z-10"></div>
                         <div class="w-1/2 pl-8">
-                            <div class="text-blue-400 font-semibold">成长</div>
+                            <div class="text-blue-600 font-semibold">Growth</div>
                         </div>
                     </div>
                     
                     <!-- 2023 -->
                     <div class="timeline-item flex items-center">
                         <div class="w-1/2 pr-8 text-right">
-                            <div class="text-blue-400 font-semibold">突破</div>
+                            <div class="text-blue-600 font-semibold">Breakthrough</div>
                         </div>
-                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex-shrink-0 z-10"></div>
                         <div class="w-1/2 pl-8">
-                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
-                                <h3 class="text-xl font-bold text-white mb-2">2023年 - 技术创新</h3>
-                                <p class="text-gray-300">推出高效滤芯技术，获得多项专利认证</p>
+                            <div class="feature-card">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">2023 - Technology Innovation</h3>
+                                <p class="text-gray-600">Launched high-efficiency filter technology, obtained multiple patents</p>
                             </div>
                         </div>
                     </div>
@@ -307,14 +561,14 @@
                     <!-- 2024 -->
                     <div class="timeline-item flex items-center">
                         <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-gray-800 rounded-2xl p-6 card-hover">
-                                <h3 class="text-xl font-bold text-white mb-2">2024年 - 市场领先</h3>
-                                <p class="text-gray-300">成为国内特斯拉配件市场领导品牌</p>
+                            <div class="feature-card">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">2024 - Market Leadership</h3>
+                                <p class="text-gray-600">Became the leading brand in China's Tesla accessories market</p>
                             </div>
                         </div>
-                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-black glow-effect flex-shrink-0 z-10"></div>
+                        <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex-shrink-0 z-10"></div>
                         <div class="w-1/2 pl-8">
-                            <div class="text-blue-400 font-semibold">现在</div>
+                            <div class="text-blue-600 font-semibold">Present</div>
                         </div>
                     </div>
                 </div>
@@ -323,61 +577,65 @@
     </section>
     
     <!-- Team Section -->
-    <section class="py-20 bg-black">
+    <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">
-                    <span class="gradient-text">核心团队</span>
+                    <span class="gradient-text">Core Team</span>
                 </h2>
-                <p class="text-xl text-gray-300">专业团队，为品质保驾护航</p>
+                <p class="text-xl text-gray-600">Professional team ensuring quality</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Team Member 1 -->
-                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
-                        <span class="text-white text-2xl font-bold">李</span>
+                <div class="team-card text-center feature-card">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl font-bold">Li</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">李创新</h3>
-                    <p class="text-blue-400 mb-3">创始人 & CEO</p>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        前特斯拉工程师，10年汽车行业经验，致力于推动电动汽车配件创新。
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Li Chuangxin</h3>
+                    <p class="text-blue-600 mb-3">Founder & CEO</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Former Tesla engineer with 10 years of automotive industry experience, 
+                        committed to promoting innovation in electric vehicle accessories.
                     </p>
                 </div>
                 
                 <!-- Team Member 2 -->
-                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
-                        <span class="text-white text-2xl font-bold">王</span>
+                <div class="team-card text-center feature-card">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl font-bold">Wang</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">王设计</h3>
-                    <p class="text-blue-400 mb-3">设计总监</p>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        德国工业设计硕士，专注用户体验设计，曾获红点设计大奖。
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Wang Sheji</h3>
+                    <p class="text-blue-600 mb-3">Design Director</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Master's degree in Industrial Design from Germany, specializing in user experience design, 
+                        winner of Red Dot Design Award.
                     </p>
                 </div>
                 
                 <!-- Team Member 3 -->
-                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
-                        <span class="text-white text-2xl font-bold">张</span>
+                <div class="team-card text-center feature-card">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl font-bold">Zhang</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">张技术</h3>
-                    <p class="text-blue-400 mb-3">技术总监</p>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        材料科学博士，专注新材料研发，拥有多项专利技术。
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Zhang Jishu</h3>
+                    <p class="text-blue-600 mb-3">Technical Director</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Ph.D. in Materials Science, specializing in new material R&D, 
+                        holder of multiple patents.
                     </p>
                 </div>
                 
                 <!-- Team Member 4 -->
-                <div class="team-card text-center bg-gray-800 rounded-2xl p-6 card-hover">
-                    <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
-                        <span class="text-white text-2xl font-bold">陈</span>
+                <div class="team-card text-center feature-card">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white text-2xl font-bold">Chen</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">陈品质</h3>
-                    <p class="text-blue-400 mb-3">品质总监</p>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        前德系品牌质量工程师，严格把控每一个生产环节。
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Chen Pinzhi</h3>
+                    <p class="text-blue-600 mb-3">Quality Director</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Former quality engineer for German automotive brands, 
+                        strictly controls every production process.
                     </p>
                 </div>
             </div>
@@ -385,55 +643,55 @@
     </section>
     
     <!-- Values Section -->
-    <section class="py-20 bg-gradient-to-b from-black to-gray-900 parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('resources/product-showcase.jpg');">
+    <section class="py-20 bg-white parallax-bg" style="background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('resources/accessories-collection.jpg');">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">
-                    <span class="gradient-text">核心价值观</span>
+                    <span class="gradient-text">Core Values</span>
                 </h2>
-                <p class="text-xl text-gray-300">指导我们前进的核心理念</p>
+                <p class="text-xl text-gray-600">Core principles guiding our progress</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Value 1 -->
-                <div class="text-center bg-black bg-opacity-50 rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                <div class="text-center feature-card">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">创新驱动</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        持续投入研发，不断探索新技术、新材料、新工艺，
-                        为用户提供更智能、更实用的产品解决方案。
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Innovation Driven</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Continuously invest in R&D, constantly explore new technologies, materials, and processes, 
+                        providing users with smarter and more practical product solutions.
                     </p>
                 </div>
                 
                 <!-- Value 2 -->
-                <div class="text-center bg-black bg-opacity-50 rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                <div class="text-center feature-card">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">品质至上</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        严格的质量控制体系，每一个产品都经过多重检测，
-                        确保符合最高标准，为用户提供可靠的使用体验。
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Quality First</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Strict quality control system, every product undergoes multiple inspections, 
+                        ensuring compliance with the highest standards and providing users with reliable experience.
                     </p>
                 </div>
                 
                 <!-- Value 3 -->
-                <div class="text-center bg-black bg-opacity-50 rounded-2xl p-8 card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-effect">
+                <div class="text-center feature-card">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">用户为本</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        以用户需求为导向，倾听用户声音，持续改进产品和服务，
-                        为用户创造价值，建立长期的信任关系。
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">User Centric</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        User demand-oriented, listening to user feedback, continuously improving products and services, 
+                        creating value for users and building long-term trust relationships.
                     </p>
                 </div>
             </div>
@@ -441,79 +699,79 @@
     </section>
     
     <!-- Certifications -->
-    <section class="py-20 bg-black">
+    <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">
-                    <span class="gradient-text">认证资质</span>
+                    <span class="gradient-text">Certifications</span>
                 </h2>
-                <p class="text-xl text-gray-300">专业认证，品质保证</p>
+                <p class="text-xl text-gray-600">Professional certifications, quality assurance</p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <!-- Certification 1 -->
-                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                <div class="text-center feature-card">
                     <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-white mb-2">ISO 9001</h3>
-                    <p class="text-gray-400 text-sm">质量管理体系认证</p>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">ISO 9001</h3>
+                    <p class="text-gray-500 text-sm">Quality Management System</p>
                 </div>
                 
                 <!-- Certification 2 -->
-                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                <div class="text-center feature-card">
                     <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-white mb-2">CE认证</h3>
-                    <p class="text-gray-400 text-sm">欧盟安全认证</p>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">CE Certification</h3>
+                    <p class="text-gray-500 text-sm">EU Safety Certification</p>
                 </div>
                 
                 <!-- Certification 3 -->
-                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                <div class="text-center feature-card">
                     <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-white mb-2">RoHS</h3>
-                    <p class="text-gray-400 text-sm">环保认证</p>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">RoHS</h3>
+                    <p class="text-gray-500 text-sm">Environmental Certification</p>
                 </div>
                 
                 <!-- Certification 4 -->
-                <div class="text-center bg-gray-800 rounded-2xl p-6 card-hover">
+                <div class="text-center feature-card">
                     <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-white mb-2">专利认证</h3>
-                    <p class="text-gray-400 text-sm">多项技术专利</p>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Patent Certification</h3>
+                    <p class="text-gray-500 text-sm">Multiple Technology Patents</p>
                 </div>
             </div>
         </div>
     </section>
     
     <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-b from-black to-gray-900">
+    <section class="py-20 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl font-bold mb-6">
-                <span class="gradient-text">加入我们的旅程</span>
+                <span class="gradient-text">Join Our Journey</span>
             </h2>
-            <p class="text-xl text-gray-300 mb-8 leading-relaxed">
-                与CYBERBEANS一起，为您的特斯拉打造完美的驾驶体验。
-                探索我们的产品，感受科技与品质的完美结合。
+            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                Join CYBERBEANS in creating the perfect driving experience for your Tesla. 
+                Explore our products and experience the perfect combination of technology and quality.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="products.html" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 glow-effect">
-                    探索产品
+                <a href="products.html" class="btn-primary">
+                    Explore Products
                 </a>
-                <a href="contact.html" class="border border-gray-600 hover:border-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300">
-                    联系我们
+                <a href="contact.html" class="btn-secondary">
+                    Contact Us
                 </a>
             </div>
         </div>
@@ -521,43 +779,43 @@
     
     <!-- Cart Sidebar -->
     <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
-    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-gray-900 transform translate-x-full transition-transform duration-300 z-50">
-        <div class="flex items-center justify-between p-6 border-b border-gray-700">
-            <h3 class="text-xl font-semibold text-white">购物车</h3>
-            <button id="cart-close" class="text-gray-400 hover:text-white">
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 cart-sidebar transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900">Shopping Cart</h3>
+            <button id="cart-close" class="text-gray-500 hover:text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
         </div>
         <div id="cart-items" class="flex-1 overflow-y-auto">
-            <div class="p-6 text-center text-gray-400">
-                购物车为空
+            <div class="p-6 text-center text-gray-500">
+                Cart is empty
             </div>
         </div>
-        <div class="p-6 border-t border-gray-700">
+        <div class="p-6 border-t border-gray-200">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-white font-semibold">总计:</span>
-                <span id="cart-total" class="text-blue-400 font-bold text-xl">¥0.00</span>
+                <span class="text-gray-900 font-semibold">Total:</span>
+                <span id="cart-total" class="text-blue-600 font-bold text-xl">¥0.00</span>
             </div>
-            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                立即结算
+            <button class="w-full btn-primary">
+                Checkout
             </button>
         </div>
     </div>
     
     <!-- Footer -->
-    <footer class="bg-black py-12">
+    <footer class="bg-gray-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <div class="flex items-center justify-center space-x-3 mb-6">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center glow-effect">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                         <span class="text-white font-bold text-lg">CB</span>
                     </div>
                     <span class="text-2xl font-bold gradient-text font-display">CYBERBEANS</span>
                 </div>
-                <p class="text-gray-400 mb-6">专业特斯拉配件品牌 - 创新科技，精工品质</p>
-                <p class="text-gray-500 text-sm">© 2024 CYBERBEANS. 保留所有权利。</p>
+                <p class="text-gray-600 mb-6">Professional Tesla Accessories Brand - Innovation Technology, Exquisite Quality</p>
+                <p class="text-gray-500 text-sm">© 2024 CYBERBEANS. All rights reserved.</p>
             </div>
         </div>
     </footer>

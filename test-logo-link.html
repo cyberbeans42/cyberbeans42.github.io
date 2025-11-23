@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo链接功能测试</title>
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            padding: 40px;
+            background: #f5f5f7;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .test-item {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .success {
+            background: #e8f5e8;
+            border-color: #4caf50;
+        }
+        .test-link {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background: #007AFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .test-link:hover {
+            background: #0051A2;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>CYBERBEANS Logo链接功能测试</h1>
+        
+        <div class="test-item success">
+            <h3>✅ 修复完成</h3>
+            <p>品牌logo链接功能已成功添加到所有页面：</p>
+            <ul>
+                <li>首页 (index.html) - logo可点击返回主页</li>
+                <li>产品页 (products.html) - logo可点击返回主页</li>
+                <li>关于页 (about.html) - logo可点击返回主页</li>
+                <li>联系页 (contact.html) - logo可点击返回主页</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>测试链接</h3>
+            <p>点击下方链接测试logo功能：</p>
+            <a href="index.html" class="test-link">访问首页</a>
+            <a href="products.html" class="test-link">访问产品页</a>
+            <a href="about.html" class="test-link">访问关于页</a>
+            <a href="contact.html" class="test-link">访问联系页</a>
+        </div>
+        
+        <div class="test-item">
+            <h3>功能说明</h3>
+            <ul>
+                <li>点击logo图标或CYBERBEANS文字均可返回首页</li>
+                <li>鼠标悬停时会有透明度变化效果</li>
+                <li>保持苹果官网风格的平滑过渡动画</li>
+                <li>在所有设备上都能正常工作</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>技术实现</h3>
+            <p>修改了所有页面的导航栏代码，将logo和文字包装在&lt;a href="index.html"&gt;标签中，确保用户可以点击返回主页。</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>产品中心 - CYBERBEANS</title>
-    <meta name="description" content="CYBERBEANS产品中心 - 专业特斯拉配件，智能杯架、高效滤芯、运动挡泥板、全包围脚垫等">
+    <meta name="description" content="CYBERBEANS产品中心 - 专业特斯拉配件，挡泥板、空调滤芯、脚垫等产品">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,16 +16,17 @@
     
     <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
     
     <!-- Custom Styles -->
     <style>
         :root {
-            --primary-dark: #1a1a1a;
-            --electric-blue: #00d4ff;
-            --titanium-silver: #c0c0c0;
-            --pure-black: #000000;
+            --primary-bg: #FFFFFF;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --link-color: #0066CC;
+            --accent-blue: #00D4FF;
+            --border-color: #D2D2D7;
         }
         
         * {
@@ -37,38 +38,131 @@
         }
         
         body {
-            background: var(--pure-black);
-            color: white;
+            background: var(--primary-bg);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
         
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            min-width: 300px;
+            z-index: 1000;
+        }
+        
+        .dropdown-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .dropdown-item {
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: #f5f5f7;
+            transform: scale(1.02);
+        }
+        
+        .dropdown-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .dropdown-item h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .dropdown-item p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-card img {
+            border-radius: 12px;
+        }
+        
+        .btn-primary {
+            background: var(--link-color);
+            color: white;
+            border-radius: 980px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: #0051A2;
+            transform: scale(1.02);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--link-color);
+            border: 1px solid var(--link-color);
+            border-radius: 980px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--link-color);
+            color: white;
+        }
+        
         .gradient-text {
-            background: linear-gradient(135deg, var(--electric-blue), var(--titanium-silver));
+            background: linear-gradient(135deg, var(--accent-blue), #007AFF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .glow-effect {
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
-        }
-        
-        .nav-blur {
-            backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.8);
-        }
-        
         .filter-active {
-            background: var(--electric-blue) !important;
+            background: var(--link-color) !important;
             color: white !important;
         }
         
@@ -76,7 +170,7 @@
             -webkit-appearance: none;
             appearance: none;
             height: 4px;
-            background: #374151;
+            background: #f0f0f0;
             outline: none;
             border-radius: 2px;
         }
@@ -86,7 +180,7 @@
             appearance: none;
             width: 20px;
             height: 20px;
-            background: var(--electric-blue);
+            background: var(--link-color);
             cursor: pointer;
             border-radius: 50%;
         }
@@ -94,7 +188,7 @@
         .price-range-slider::-moz-range-thumb {
             width: 20px;
             height: 20px;
-            background: var(--electric-blue);
+            background: var(--link-color);
             cursor: pointer;
             border-radius: 50%;
             border: none;
@@ -105,52 +199,228 @@
             overflow-y: auto;
         }
         
-        .product-card {
-            opacity: 0;
+        .mobile-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
         }
         
-        #particles-container {
-            pointer-events: none;
+        .cart-sidebar {
+            background: white;
+            border-left: 1px solid var(--border-color);
+        }
+        
+        .sidebar {
+            background: #f5f5f7;
+            border-radius: 18px;
+            padding: 24px;
+        }
+        
+        .sidebar h3 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .filter-group {
+            margin-bottom: 24px;
+        }
+        
+        .filter-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+        
+        .filter-group input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: var(--link-color);
+        }
+        
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                transform: none;
+                border-radius: 0;
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+            
+            .dropdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Particles Container -->
-    <div id="particles-container"></div>
-    
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-14">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center glow-effect">
-                        <span class="text-white font-bold text-lg">CB</span>
-                    </div>
-                    <span class="text-2xl font-bold gradient-text font-display">CYBERBEANS</span>
+                    <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">CB</span>
+                        </div>
+                        <span class="text-xl font-bold gradient-text font-display">CYBERBEANS</span>
+                    </a>
                 </div>
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">首页</a>
-                    <a href="products.html" class="text-white hover:text-blue-400 transition-colors font-medium">产品中心</a>
-                    <a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">关于我们</a>
-                    <a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">联系我们</a>
+                    <!-- Model S -->
+                    <div class="nav-item">
+                        <a href="products.html?model=models" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model S</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-s-accessories.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥349起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/air-filter-technology.jpg" alt="空调滤芯">
+                                    <h4>空调滤芯</h4>
+                                    <p>¥249起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/model-s-accessories.jpg" alt="刹车踏板">
+                                    <h4>刹车踏板</h4>
+                                    <p>¥429起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model 3 -->
+                    <div class="nav-item">
+                        <a href="products.html?model=model3" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model 3</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-3-interior.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥299起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/air-filter-technology.jpg" alt="空调滤芯">
+                                    <h4>空调滤芯</h4>
+                                    <p>¥199起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/product-showcase.jpg" alt="脚垫">
+                                    <h4>脚垫套装</h4>
+                                    <p>¥599起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/cup-holder-detail.jpg" alt="钢化膜">
+                                    <h4>屏幕钢化膜</h4>
+                                    <p>¥159起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Y -->
+                    <div class="nav-item">
+                        <a href="products.html?model=modely" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model Y</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-y-exterior.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥329起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/air-filter-technology.jpg" alt="空调滤芯">
+                                    <h4>空调滤芯</h4>
+                                    <p>¥219起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/tesla-model-y-accessories.jpg" alt="后备箱垫">
+                                    <h4>后备箱垫</h4>
+                                    <p>¥399起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/cup-holder-detail.jpg" alt="雨刮器">
+                                    <h4>雨刮器</h4>
+                                    <p>¥279起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model X -->
+                    <div class="nav-item">
+                        <a href="products.html?model=modelx" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Model X</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/model-x-accessories.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥379起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/model-x-accessories.jpg" alt="防踢垫">
+                                    <h4>座椅防踢垫</h4>
+                                    <p>¥299起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/model-x-accessories.jpg" alt="千斤顶垫">
+                                    <h4>千斤顶垫</h4>
+                                    <p>¥189起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cybertruck -->
+                    <div class="nav-item">
+                        <a href="products.html?model=cybertruck" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Cybertruck</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-item">
+                                    <img src="resources/cybertruck-accessories.jpg" alt="挡泥板">
+                                    <h4>挡泥板</h4>
+                                    <p>¥499起</p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <img src="resources/cybertruck-accessories.jpg" alt="脚垫">
+                                    <h4>脚垫</h4>
+                                    <p>¥699起</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Brand Story -->
+                    <div class="nav-item">
+                        <a href="about.html" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Brand Story</a>
+                    </div>
+                    
+                    <!-- Support -->
+                    <div class="nav-item">
+                        <a href="contact.html" class="text-gray-900 hover:text-blue-600 transition-colors font-medium text-sm">Support</a>
+                    </div>
                     
                     <!-- Cart Icon -->
                     <div class="relative">
-                        <button id="cart-icon" class="relative p-2 text-gray-300 hover:text-white transition-colors">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="cart-icon" class="relative p-2 text-gray-900 hover:text-blue-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0h9"></path>
                             </svg>
-                            <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                         </button>
                     </div>
                 </div>
                 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                    <button id="mobile-menu-btn" class="text-gray-900 hover:text-blue-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -160,24 +430,27 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-90">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="index.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">首页</a>
-                <a href="products.html" class="block px-3 py-2 text-white hover:text-blue-400">产品中心</a>
-                <a href="about.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">关于我们</a>
-                <a href="contact.html" class="block px-3 py-2 text-gray-300 hover:text-blue-400">联系我们</a>
+        <div id="mobile-menu" class="hidden md:hidden mobile-menu">
+            <div class="px-4 py-2 space-y-1">
+                <a href="products.html?model=models" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model S</a>
+                <a href="products.html?model=model3" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model 3</a>
+                <a href="products.html?model=modely" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model Y</a>
+                <a href="products.html?model=modelx" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Model X</a>
+                <a href="products.html?model=cybertruck" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Cybertruck</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Brand Story</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-900 hover:text-blue-600">Support</a>
             </div>
         </div>
     </nav>
     
     <!-- Page Header -->
-    <section class="pt-24 pb-12 bg-gradient-to-b from-black to-gray-900">
+    <section class="pt-24 pb-12 bg-gradient-to-b from-gray-50 to-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">
                     <span class="gradient-text font-display">产品中心</span>
                 </h1>
-                <p class="text-xl text-gray-300">为您的特斯拉选择最适合的配件</p>
+                <p class="text-xl text-gray-600">为您的特斯拉选择最适合的配件</p>
             </div>
         </div>
     </section>
@@ -188,93 +461,94 @@
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Sidebar Filters -->
                 <div class="lg:w-1/4">
-                    <div class="bg-gray-800 rounded-2xl p-6 sticky top-24">
-                        <h3 class="text-xl font-semibold mb-6 text-white">筛选条件</h3>
+                    <div class="sidebar sticky top-24">
+                        <h3 class="text-xl font-semibold mb-6 text-gray-900">筛选条件</h3>
                         
-                        <!-- Category Filter -->
-                        <div class="mb-8">
-                            <h4 class="text-lg font-medium mb-4 text-gray-300">产品类别</h4>
+                        <!-- Model Filter -->
+                        <div class="filter-group">
+                            <h4 class="text-lg font-medium mb-4 text-gray-700">特斯拉车型</h4>
                             <div class="space-y-3">
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="category-filter mr-3 text-blue-500" value="all" checked>
-                                    <span class="text-gray-300">全部产品</span>
+                                    <input type="checkbox" class="model-filter mr-3" value="model3" checked>
+                                    <span class="text-gray-700">Model 3</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="category-filter mr-3 text-blue-500" value="interior">
-                                    <span class="text-gray-300">内饰配件</span>
+                                    <input type="checkbox" class="model-filter mr-3" value="modely">
+                                    <span class="text-gray-700">Model Y</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="category-filter mr-3 text-blue-500" value="filter">
-                                    <span class="text-gray-300">空调滤芯</span>
+                                    <input type="checkbox" class="model-filter mr-3" value="models">
+                                    <span class="text-gray-700">Model S</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="category-filter mr-3 text-blue-500" value="exterior">
-                                    <span class="text-gray-300">外观配件</span>
+                                    <input type="checkbox" class="model-filter mr-3" value="modelx">
+                                    <span class="text-gray-700">Model X</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="model-filter mr-3" value="cybertruck">
+                                    <span class="text-gray-700">Cybertruck</span>
                                 </label>
                             </div>
                         </div>
                         
-                        <!-- Model Filter -->
-                        <div class="mb-8">
-                            <h4 class="text-lg font-medium mb-4 text-gray-300">适配车型</h4>
+                        <!-- Product Type Filter -->
+                        <div class="filter-group">
+                            <h4 class="text-lg font-medium mb-4 text-gray-700">产品类型</h4>
                             <div class="space-y-3">
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="model-filter mr-3 text-blue-500" value="model3">
-                                    <span class="text-gray-300">Model 3</span>
+                                    <input type="checkbox" class="type-filter mr-3" value="mud-flap">
+                                    <span class="text-gray-700">挡泥板</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="model-filter mr-3 text-blue-500" value="modely">
-                                    <span class="text-gray-300">Model Y</span>
+                                    <input type="checkbox" class="type-filter mr-3" value="air-filter">
+                                    <span class="text-gray-700">空调滤芯</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="model-filter mr-3 text-blue-500" value="models">
-                                    <span class="text-gray-300">Model S</span>
+                                    <input type="checkbox" class="type-filter mr-3" value="floor-mat">
+                                    <span class="text-gray-700">脚垫</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="model-filter mr-3 text-blue-500" value="modelx">
-                                    <span class="text-gray-300">Model X</span>
+                                    <input type="checkbox" class="type-filter mr-3" value="screen-protector">
+                                    <span class="text-gray-700">屏幕钢化膜</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="type-filter mr-3" value="wiper">
+                                    <span class="text-gray-700">雨刮器</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="type-filter mr-3" value="trunk-mat">
+                                    <span class="text-gray-700">后备箱垫</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="type-filter mr-3" value="pedal">
+                                    <span class="text-gray-700">刹车踏板</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="type-filter mr-3" value="seat-protector">
+                                    <span class="text-gray-700">座椅防踢垫</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="type-filter mr-3" value="jack-pad">
+                                    <span class="text-gray-700">千斤顶垫</span>
                                 </label>
                             </div>
                         </div>
                         
                         <!-- Price Range -->
-                        <div class="mb-8">
-                            <h4 class="text-lg font-medium mb-4 text-gray-300">价格区间</h4>
+                        <div class="filter-group">
+                            <h4 class="text-lg font-medium mb-4 text-gray-700">价格区间</h4>
                             <div class="px-2">
-                                <input type="range" id="price-range" class="price-range-slider w-full" min="0" max="1000" value="500">
-                                <div class="flex justify-between text-sm text-gray-400 mt-2">
+                                <input type="range" id="price-range" class="price-range-slider w-full" min="0" max="1000" value="800">
+                                <div class="flex justify-between text-sm text-gray-500 mt-2">
                                     <span>¥0</span>
-                                    <span id="price-value">¥500</span>
+                                    <span id="price-value">¥800</span>
                                     <span>¥1000+</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Material Filter -->
-                        <div class="mb-8">
-                            <h4 class="text-lg font-medium mb-4 text-gray-300">材质类型</h4>
-                            <div class="space-y-3">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="material-filter mr-3 text-blue-500" value="tpe">
-                                    <span class="text-gray-300">TPE材质</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="material-filter mr-3 text-blue-500" value="carbon">
-                                    <span class="text-gray-300">碳纤维</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="material-filter mr-3 text-blue-500" value="abs">
-                                    <span class="text-gray-300">ABS塑料</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="material-filter mr-3 text-blue-500" value="aluminum">
-                                    <span class="text-gray-300">铝合金</span>
-                                </label>
-                            </div>
-                        </div>
-                        
                         <!-- Reset Button -->
-                        <button id="reset-filters" class="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-all duration-300">
+                        <button id="reset-filters" class="w-full btn-secondary">
                             重置筛选
                         </button>
                     </div>
@@ -285,8 +559,8 @@
                     <!-- Sort and View Options -->
                     <div class="flex items-center justify-between mb-8">
                         <div class="flex items-center space-x-4">
-                            <span class="text-gray-300">排序方式:</span>
-                            <select id="sort-select" class="bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-600 focus:border-blue-400 focus:outline-none">
+                            <span class="text-gray-700">排序方式:</span>
+                            <select id="sort-select" class="bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500">
                                 <option value="default">默认排序</option>
                                 <option value="price-low">价格从低到高</option>
                                 <option value="price-high">价格从高到低</option>
@@ -301,7 +575,7 @@
                                     <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                                 </svg>
                             </button>
-                            <button id="list-view" class="p-2 bg-gray-700 text-white rounded-lg">
+                            <button id="list-view" class="p-2 bg-gray-200 text-gray-700 rounded-lg">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                                 </svg>
@@ -311,7 +585,7 @@
                     
                     <!-- Products Count -->
                     <div class="mb-6">
-                        <p class="text-gray-300">共找到 <span id="products-count" class="text-blue-400 font-semibold">12</span> 个产品</p>
+                        <p class="text-gray-700">共找到 <span id="products-count" class="text-blue-600 font-semibold">15</span> 个产品</p>
                     </div>
                     
                     <!-- Products Grid -->
@@ -321,7 +595,7 @@
                     
                     <!-- Load More Button -->
                     <div class="text-center mt-12">
-                        <button id="load-more" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300">
+                        <button id="load-more" class="btn-primary">
                             加载更多产品
                         </button>
                     </div>
@@ -333,10 +607,10 @@
     <!-- Compare Modal -->
     <div id="compare-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-gray-900 rounded-2xl max-w-6xl w-full max-h-screen overflow-hidden">
-                <div class="flex items-center justify-between p-6 border-b border-gray-700">
-                    <h3 class="text-2xl font-semibold text-white">产品对比</h3>
-                    <button id="close-compare" class="text-gray-400 hover:text-white">
+            <div class="bg-white rounded-2xl max-w-6xl w-full max-h-screen overflow-hidden">
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-900">产品对比</h3>
+                    <button id="close-compare" class="text-gray-500 hover:text-gray-700">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -353,56 +627,56 @@
     
     <!-- Cart Sidebar -->
     <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
-    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-gray-900 transform translate-x-full transition-transform duration-300 z-50">
-        <div class="flex items-center justify-between p-6 border-b border-gray-700">
-            <h3 class="text-xl font-semibold text-white">购物车</h3>
-            <button id="cart-close" class="text-gray-400 hover:text-white">
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 cart-sidebar transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900">购物车</h3>
+            <button id="cart-close" class="text-gray-500 hover:text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
         </div>
         <div id="cart-items" class="flex-1 overflow-y-auto">
-            <div class="p-6 text-center text-gray-400">
+            <div class="p-6 text-center text-gray-500">
                 购物车为空
             </div>
         </div>
-        <div class="p-6 border-t border-gray-700">
+        <div class="p-6 border-t border-gray-200">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-white font-semibold">总计:</span>
-                <span id="cart-total" class="text-blue-400 font-bold text-xl">¥0.00</span>
+                <span class="text-gray-900 font-semibold">总计:</span>
+                <span id="cart-total" class="text-blue-600 font-bold text-xl">¥0.00</span>
             </div>
-            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+            <button class="w-full btn-primary">
                 立即结算
             </button>
         </div>
     </div>
     
     <!-- Compare Panel -->
-    <div id="compare-panel" class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-700 p-4 hidden z-30">
+    <div id="compare-panel" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 hidden z-30">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <span class="text-white font-semibold">产品对比</span>
+                <span class="text-gray-900 font-semibold">产品对比</span>
                 <span id="compare-count" class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm">0</span>
             </div>
             <div class="flex items-center space-x-4">
-                <button id="view-compare" class="text-blue-400 hover:text-blue-300">查看对比</button>
-                <button id="clear-compare" class="text-red-400 hover:text-red-300">清空</button>
+                <button id="view-compare" class="text-blue-600 hover:text-blue-800">查看对比</button>
+                <button id="clear-compare" class="text-red-600 hover:text-red-800">清空</button>
             </div>
         </div>
     </div>
     
     <!-- Footer -->
-    <footer class="bg-black py-12">
+    <footer class="bg-gray-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <div class="flex items-center justify-center space-x-3 mb-6">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center glow-effect">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                         <span class="text-white font-bold text-lg">CB</span>
                     </div>
                     <span class="text-2xl font-bold gradient-text font-display">CYBERBEANS</span>
                 </div>
-                <p class="text-gray-400 mb-6">专业特斯拉配件品牌 - 创新科技，精工品质</p>
+                <p class="text-gray-600 mb-6">专业特斯拉配件品牌 - 创新科技，精工品质</p>
                 <p class="text-gray-500 text-sm">© 2024 CYBERBEANS. 保留所有权利。</p>
             </div>
         </div>
@@ -412,172 +686,224 @@
     <script src="main.js"></script>
     <script>
         // Extended product data for products page
-        const extendedProducts = [
+        const appleStyleProducts = [
             {
-                id: 'cup-holder-pro',
-                name: '智能杯架 Pro',
+                id: 'mud-flap-model3',
+                name: 'Model 3 挡泥板',
                 price: 299,
-                category: 'interior',
-                model: ['model3', 'modely'],
-                material: 'abs',
-                image: 'resources/cup-holder-detail.jpg',
-                description: '升级您的特斯拉杯架，智能温控，完美适配',
+                category: 'model3',
+                type: 'mud-flap',
+                model: ['model3'],
+                image: 'resources/model-3-interior.jpg',
+                description: '专为Model 3设计，完美贴合，有效防护',
                 rating: 4.8,
                 reviews: 156,
-                features: ['智能温控', 'LED照明', '防漏设计', '易安装']
+                features: ['完美贴合', '有效防护', '易安装', '耐用材质']
             },
             {
-                id: 'air-filter-max',
-                name: '高效空调滤芯 Max',
+                id: 'air-filter-model3',
+                name: 'Model 3 空调滤芯',
                 price: 199,
-                category: 'filter',
-                model: ['model3', 'modely', 'models', 'modelx'],
-                material: 'abs',
+                category: 'model3',
+                type: 'air-filter',
+                model: ['model3'],
                 image: 'resources/air-filter-technology.jpg',
-                description: '三层过滤技术，99.9%过滤效率',
+                description: '高效过滤，清新空气，原厂品质',
                 rating: 4.9,
                 reviews: 89,
-                features: ['三层过滤', '99.9%效率', '长效使用', '原厂规格']
+                features: ['高效过滤', '原厂品质', '易更换', '长效使用']
             },
             {
-                id: 'mud-flap-sport',
-                name: '运动挡泥板套装',
-                price: 399,
-                category: 'exterior',
-                model: ['model3', 'modely'],
-                material: 'carbon',
-                image: 'resources/tesla-model-y-accessories.jpg',
-                description: '碳纤维纹理，完美贴合车身曲线',
-                rating: 4.7,
-                reviews: 234,
-                features: ['碳纤维纹理', '防腐蚀', '易清洁', '无损安装']
-            },
-            {
-                id: 'floor-mat-premium',
-                name: '全包围脚垫 Premium',
+                id: 'floor-mat-model3',
+                name: 'Model 3 脚垫套装',
                 price: 599,
-                category: 'interior',
-                model: ['model3', 'modely', 'models', 'modelx'],
-                material: 'tpe',
+                category: 'model3',
+                type: 'floor-mat',
+                model: ['model3'],
                 image: 'resources/product-showcase.jpg',
-                description: 'TPE材质，防水防滑，易清洁',
+                description: 'TPE材质，防水防滑，全包围设计',
                 rating: 4.8,
                 reviews: 167,
                 features: ['TPE材质', '防水防滑', '全包围设计', '环保无味']
             },
             {
-                id: 'center-console-organizer',
-                name: '中控台收纳盒',
+                id: 'screen-protector-model3',
+                name: 'Model 3 屏幕钢化膜',
                 price: 159,
-                category: 'interior',
-                model: ['model3', 'modely'],
-                material: 'abs',
-                image: 'resources/hero-tesla-interior.jpg',
-                description: '合理利用空间，分类收纳更整洁',
-                rating: 4.6,
-                reviews: 98,
-                features: ['空间优化', '分类收纳', '防滑设计', '一键安装']
-            },
-            {
-                id: 'wireless-charger-pad',
-                name: '无线充电板',
-                price: 349,
-                category: 'interior',
-                model: ['model3', 'modely'],
-                material: 'aluminum',
+                category: 'model3',
+                type: 'screen-protector',
+                model: ['model3'],
                 image: 'resources/cup-holder-detail.jpg',
-                description: '15W快充，双设备同时充电',
-                rating: 4.5,
-                reviews: 76,
-                features: ['15W快充', '双设备充电', '智能识别', '过热保护']
-            },
-            {
-                id: 'door-sill-protector',
-                name: '门槛条保护板',
-                price: 229,
-                category: 'exterior',
-                model: ['model3', 'modely', 'models', 'modelx'],
-                material: 'carbon',
-                image: 'resources/tesla-model-y-accessories.jpg',
-                description: '碳纤维材质，防刮耐磨',
-                rating: 4.4,
-                reviews: 134,
-                features: ['碳纤维材质', '防刮耐磨', '3M背胶', '定制贴合']
-            },
-            {
-                id: 'trunk-organizer',
-                name: '后备箱整理箱',
-                price: 449,
-                category: 'interior',
-                model: ['model3', 'modely'],
-                material: 'abs',
-                image: 'resources/product-showcase.jpg',
-                description: '折叠设计，大容量收纳',
+                description: '9H硬度，高清透光，防指纹',
                 rating: 4.7,
-                reviews: 89,
-                features: ['折叠设计', '大容量', '防水材质', '防滑底部']
+                reviews: 234,
+                features: ['9H硬度', '高清透光', '防指纹', '易安装']
             },
             {
-                id: 'window-sunshade',
-                name: '车窗遮阳帘',
-                price: 279,
-                category: 'exterior',
-                model: ['model3', 'modely'],
-                material: 'abs',
-                image: 'resources/hero-tesla-interior.jpg',
-                description: '磁吸安装，有效隔热',
-                rating: 4.3,
-                reviews: 112,
-                features: ['磁吸安装', '有效隔热', '隐私保护', '无损安装']
-            },
-            {
-                id: 'performance-pedals',
-                name: '运动踏板套装',
+                id: 'mud-flap-modely',
+                name: 'Model Y 挡泥板',
                 price: 329,
-                category: 'interior',
-                model: ['model3', 'modely'],
-                material: 'aluminum',
-                image: 'resources/cup-holder-detail.jpg',
-                description: '铝合金材质，防滑设计',
-                rating: 4.6,
-                reviews: 67,
-                features: ['铝合金材质', '防滑设计', '增强驾驶感受', '易安装']
+                category: 'modely',
+                type: 'mud-flap',
+                model: ['modely'],
+                image: 'resources/model-y-exterior.jpg',
+                description: '碳纤维纹理，完美贴合，提升外观',
+                rating: 4.8,
+                reviews: 145,
+                features: ['碳纤维纹理', '完美贴合', '提升外观', '防腐蚀']
             },
             {
-                id: 'charging-cable-organizer',
-                name: '充电线收纳器',
-                price: 89,
-                category: 'interior',
-                model: ['model3', 'modely', 'models', 'modelx'],
-                material: 'abs',
+                id: 'air-filter-modely',
+                name: 'Model Y 空调滤芯',
+                price: 219,
+                category: 'modely',
+                type: 'air-filter',
+                model: ['modely'],
                 image: 'resources/air-filter-technology.jpg',
-                description: '整洁收纳，防止缠绕',
-                rating: 4.2,
-                reviews: 156,
-                features: ['整洁收纳', '防缠绕', '壁挂设计', '耐用材质']
+                description: '三层过滤，99.9%过滤效率',
+                rating: 4.9,
+                reviews: 98,
+                features: ['三层过滤', '99.9%效率', '长效使用', '原厂规格']
             },
             {
-                id: 'aero-wheel-cap',
-                name: '轮毂盖套装',
-                price: 189,
-                category: 'exterior',
-                model: ['model3', 'modely'],
-                material: 'abs',
+                id: 'trunk-mat-modely',
+                name: 'Model Y 后备箱垫',
+                price: 399,
+                category: 'modely',
+                type: 'trunk-mat',
+                model: ['modely'],
                 image: 'resources/tesla-model-y-accessories.jpg',
-                description: '提升续航，美观实用',
+                description: 'TPE材质，防水防污，完美贴合',
+                rating: 4.7,
+                reviews: 189,
+                features: ['TPE材质', '防水防污', '完美贴合', '易清洁']
+            },
+            {
+                id: 'wiper-modely',
+                name: 'Model Y 雨刮器',
+                price: 279,
+                category: 'modely',
+                type: 'wiper',
+                model: ['modely'],
+                image: 'resources/cup-holder-detail.jpg',
+                description: '专用设计，静音刮水，清晰视野',
+                rating: 4.6,
+                reviews: 167,
+                features: ['专用设计', '静音刮水', '清晰视野', '耐用材质']
+            },
+            {
+                id: 'mud-flap-models',
+                name: 'Model S 挡泥板',
+                price: 349,
+                category: 'models',
+                type: 'mud-flap',
+                model: ['models'],
+                image: 'resources/model-s-accessories.jpg',
+                description: '豪华版挡泥板，提升外观品质',
+                rating: 4.8,
+                reviews: 123,
+                features: ['豪华版', '提升外观', '易安装', '耐用材质']
+            },
+            {
+                id: 'air-filter-models',
+                name: 'Model S 空调滤芯',
+                price: 249,
+                category: 'models',
+                type: 'air-filter',
+                model: ['models'],
+                image: 'resources/air-filter-technology.jpg',
+                description: '高效过滤系统，豪华车型专用',
+                rating: 4.9,
+                reviews: 87,
+                features: ['高效过滤', '豪华专用', '易更换', '长效使用']
+            },
+            {
+                id: 'pedal-models',
+                name: 'Model S 刹车踏板',
+                price: 429,
+                category: 'models',
+                type: 'pedal',
+                model: ['models'],
+                image: 'resources/model-s-accessories.jpg',
+                description: '铝合金踏板，运动风格，提升驾驶感受',
+                rating: 4.7,
+                reviews: 156,
+                features: ['铝合金', '运动风格', '提升驾驶感受', '易安装']
+            },
+            {
+                id: 'mud-flap-modelx',
+                name: 'Model X 挡泥板',
+                price: 379,
+                category: 'modelx',
+                type: 'mud-flap',
+                model: ['modelx'],
+                image: 'resources/model-x-accessories.jpg',
+                description: '大型SUV专用，强化防护',
+                rating: 4.8,
+                reviews: 98,
+                features: ['大型专用', '强化防护', '易安装', '耐用材质']
+            },
+            {
+                id: 'seat-protector-modelx',
+                name: 'Model X 座椅防踢垫',
+                price: 299,
+                category: 'modelx',
+                type: 'seat-protector',
+                model: ['modelx'],
+                image: 'resources/model-x-accessories.jpg',
+                description: '保护座椅背部，防止踢踏痕迹',
+                rating: 4.6,
+                reviews: 134,
+                features: ['保护座椅', '防止踢踏', '易清洁', '完美贴合']
+            },
+            {
+                id: 'jack-pad-modelx',
+                name: 'Model X 千斤顶垫',
+                price: 189,
+                category: 'modelx',
+                type: 'jack-pad',
+                model: ['modelx'],
+                image: 'resources/model-x-accessories.jpg',
+                description: '保护底盘，维修必备',
                 rating: 4.5,
-                reviews: 203,
-                features: ['提升续航', '美观实用', '快速安装', '耐用材质']
+                reviews: 78,
+                features: ['保护底盘', '维修必备', '易使用', '耐用材质']
+            },
+            {
+                id: 'mud-flap-cybertruck',
+                name: 'Cybertruck 挡泥板',
+                price: 499,
+                category: 'cybertruck',
+                type: 'mud-flap',
+                model: ['cybertruck'],
+                image: 'resources/cybertruck-accessories.jpg',
+                description: '越野专用，强化防护，耐用材质',
+                rating: 4.9,
+                reviews: 67,
+                features: ['越野专用', '强化防护', '耐用材质', '易安装']
+            },
+            {
+                id: 'floor-mat-cybertruck',
+                name: 'Cybertruck 脚垫',
+                price: 699,
+                category: 'cybertruck',
+                type: 'floor-mat',
+                model: ['cybertruck'],
+                image: 'resources/cybertruck-accessories.jpg',
+                description: '越野专用脚垫，防水防污，易清洁',
+                rating: 4.8,
+                reviews: 89,
+                features: ['越野专用', '防水防污', '易清洁', '耐用材质']
             }
         ];
         
         // Initialize products page
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize with extended products
-            window.extendedProducts = extendedProducts;
+            // Initialize with apple style products
+            window.appleStyleProducts = appleStyleProducts;
             
             // Render products
-            renderProducts(extendedProducts);
+            renderProducts(appleStyleProducts);
             
             // Initialize filters
             initProductFilters();
@@ -587,6 +913,18 @@
             
             // Initialize view toggles
             initViewToggles();
+            
+            // Check URL parameters for model filter
+            const urlParams = new URLSearchParams(window.location.search);
+            const modelParam = urlParams.get('model');
+            if (modelParam) {
+                // Auto-select the model filter
+                const modelCheckbox = document.querySelector(`input[value="${modelParam}"]`);
+                if (modelCheckbox) {
+                    modelCheckbox.checked = true;
+                    applyFilters();
+                }
+            }
         });
         
         function renderProducts(products) {
@@ -596,28 +934,28 @@
             countElement.textContent = products.length;
             
             container.innerHTML = products.map(product => `
-                <div class="product-card card-hover bg-gray-800 rounded-2xl overflow-hidden" data-category="${product.category}" data-model="${product.model.join(' ')}" data-material="${product.material}" data-price="${product.price}">
-                    <div class="relative">
+                <div class="product-card p-6" data-category="${product.category}" data-model="${product.model.join(' ')}" data-type="${product.type}" data-price="${product.price}">
+                    <div class="relative mb-4">
                         <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
                         <div class="absolute top-4 right-4">
-                            <button class="compare-btn bg-black bg-opacity-50 text-white p-2 rounded-lg hover:bg-opacity-70 transition-all" data-product-id="${product.id}" data-product-name="${product.name}">
+                            <button class="compare-btn bg-white bg-opacity-80 text-gray-900 p-2 rounded-lg hover:bg-opacity-100 transition-all" data-product-id="${product.id}" data-product-name="${product.name}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                             </button>
                         </div>
                         <div class="absolute top-4 left-4">
-                            <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold">${getCategoryName(product.category)}</span>
+                            <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold">${getModelName(product.model[0])}</span>
                         </div>
                     </div>
-                    <div class="p-6">
+                    <div class="p-0">
                         <h3 class="text-xl font-semibold mb-2">${product.name}</h3>
-                        <p class="text-gray-400 text-sm mb-4">${product.description}</p>
+                        <p class="text-gray-600 text-sm mb-4">${product.description}</p>
                         
                         <!-- Features -->
                         <div class="flex flex-wrap gap-2 mb-4">
                             ${product.features.map(feature => `
-                                <span class="bg-gray-700 text-gray-300 px-2 py-1 rounded-lg text-xs">${feature}</span>
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs">${feature}</span>
                             `).join('')}
                         </div>
                         
@@ -625,12 +963,12 @@
                             <div class="flex text-yellow-400">
                                 ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
                             </div>
-                            <span class="text-gray-400 text-sm ml-2">(${product.reviews})</span>
+                            <span class="text-gray-500 text-sm ml-2">(${product.reviews})</span>
                         </div>
                         
                         <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-blue-400">¥${product.price}</span>
-                            <button class="add-to-cart bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all duration-300" data-product-id="${product.id}">
+                            <span class="text-2xl font-bold text-blue-600">¥${product.price}</span>
+                            <button class="add-to-cart btn-primary text-sm" data-product-id="${product.id}">
                                 加入购物车
                             </button>
                         </div>
@@ -653,7 +991,7 @@
                 document.querySelectorAll('.add-to-cart').forEach(button => {
                     button.addEventListener('click', (e) => {
                         const productId = e.target.dataset.productId;
-                        const product = extendedProducts.find(p => p.id === productId);
+                        const product = appleStyleProducts.find(p => p.id === productId);
                         if (product && window.app) {
                             window.app.addToCart(product);
                         }
@@ -662,19 +1000,20 @@
             }, 100);
         }
         
-        function getCategoryName(category) {
+        function getModelName(model) {
             const names = {
-                'interior': '内饰',
-                'filter': '滤芯',
-                'exterior': '外观'
+                'model3': 'Model 3',
+                'modely': 'Model Y',
+                'models': 'Model S',
+                'modelx': 'Model X',
+                'cybertruck': 'Cybertruck'
             };
-            return names[category] || category;
+            return names[model] || model;
         }
         
         function initProductFilters() {
-            const categoryFilters = document.querySelectorAll('.category-filter');
             const modelFilters = document.querySelectorAll('.model-filter');
-            const materialFilters = document.querySelectorAll('.material-filter');
+            const typeFilters = document.querySelectorAll('.type-filter');
             const priceRange = document.getElementById('price-range');
             const priceValue = document.getElementById('price-value');
             const sortSelect = document.getElementById('sort-select');
@@ -686,18 +1025,13 @@
                 applyFilters();
             });
             
-            // Category filters
-            categoryFilters.forEach(filter => {
-                filter.addEventListener('change', applyFilters);
-            });
-            
             // Model filters
             modelFilters.forEach(filter => {
                 filter.addEventListener('change', applyFilters);
             });
             
-            // Material filters
-            materialFilters.forEach(filter => {
+            // Type filters
+            typeFilters.forEach(filter => {
                 filter.addEventListener('change', applyFilters);
             });
             
@@ -706,30 +1040,21 @@
             
             // Reset button
             resetButton.addEventListener('click', function() {
-                categoryFilters.forEach(filter => {
-                    filter.checked = filter.value === 'all';
-                });
                 modelFilters.forEach(filter => {
                     filter.checked = false;
                 });
-                materialFilters.forEach(filter => {
+                typeFilters.forEach(filter => {
                     filter.checked = false;
                 });
-                priceRange.value = 500;
-                priceValue.textContent = '¥500';
+                priceRange.value = 800;
+                priceValue.textContent = '¥800';
                 sortSelect.value = 'default';
                 applyFilters();
             });
         }
         
         function applyFilters() {
-            let filteredProducts = [...extendedProducts];
-            
-            // Category filter
-            const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value);
-            if (!selectedCategories.includes('all') && selectedCategories.length > 0) {
-                filteredProducts = filteredProducts.filter(product => selectedCategories.includes(product.category));
-            }
+            let filteredProducts = [...appleStyleProducts];
             
             // Model filter
             const selectedModels = Array.from(document.querySelectorAll('.model-filter:checked')).map(cb => cb.value);
@@ -739,10 +1064,10 @@
                 );
             }
             
-            // Material filter
-            const selectedMaterials = Array.from(document.querySelectorAll('.material-filter:checked')).map(cb => cb.value);
-            if (selectedMaterials.length > 0) {
-                filteredProducts = filteredProducts.filter(product => selectedMaterials.includes(product.material));
+            // Type filter
+            const selectedTypes = Array.from(document.querySelectorAll('.type-filter:checked')).map(cb => cb.value);
+            if (selectedTypes.length > 0) {
+                filteredProducts = filteredProducts.filter(product => selectedTypes.includes(product.type));
             }
             
             // Price filter
@@ -823,7 +1148,7 @@
             
             function showCompareModal() {
                 const compareContent = document.getElementById('compare-content');
-                const productsToCompare = extendedProducts.filter(p => compareList.some(c => c.id === p.id));
+                const productsToCompare = appleStyleProducts.filter(p => compareList.some(c => c.id === p.id));
                 
                 if (productsToCompare.length > 0) {
                     compareContent.innerHTML = generateCompareTable(productsToCompare);
@@ -836,54 +1161,48 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="border-b border-gray-700">
-                                    <th class="p-4 text-white font-semibold">对比项目</th>
+                                <tr class="border-b border-gray-200">
+                                    <th class="p-4 text-gray-900 font-semibold">对比项目</th>
                                     ${products.map(product => `
                                         <th class="p-4 text-center">
                                             <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-lg mx-auto mb-2">
-                                            <div class="text-white font-semibold">${product.name}</div>
-                                            <div class="text-blue-400 font-bold">¥${product.price}</div>
+                                            <div class="text-gray-900 font-semibold">${product.name}</div>
+                                            <div class="text-blue-600 font-bold">¥${product.price}</div>
                                         </th>
                                     `).join('')}
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="border-b border-gray-700">
-                                    <td class="p-4 text-gray-300 font-medium">评分</td>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 text-gray-700 font-medium">评分</td>
                                     ${products.map(product => `
                                         <td class="p-4 text-center">
                                             <div class="flex justify-center text-yellow-400 mb-1">
                                                 ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
                                             </div>
-                                            <div class="text-gray-400 text-sm">${product.rating} (${product.reviews}条评价)</div>
+                                            <div class="text-gray-500 text-sm">${product.rating} (${product.reviews}条评价)</div>
                                         </td>
                                     `).join('')}
                                 </tr>
-                                <tr class="border-b border-gray-700">
-                                    <td class="p-4 text-gray-300 font-medium">产品类别</td>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 text-gray-700 font-medium">适配车型</td>
                                     ${products.map(product => `
-                                        <td class="p-4 text-center text-gray-300">${getCategoryName(product.category)}</td>
+                                        <td class="p-4 text-center text-gray-700">${product.model.map(m => getModelName(m)).join(', ')}</td>
                                     `).join('')}
                                 </tr>
-                                <tr class="border-b border-gray-700">
-                                    <td class="p-4 text-gray-300 font-medium">适配车型</td>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 text-gray-700 font-medium">产品类型</td>
                                     ${products.map(product => `
-                                        <td class="p-4 text-center text-gray-300">${product.model.map(m => m.toUpperCase()).join(', ')}</td>
-                                    `).join('')}
-                                </tr>
-                                <tr class="border-b border-gray-700">
-                                    <td class="p-4 text-gray-300 font-medium">材质</td>
-                                    ${products.map(product => `
-                                        <td class="p-4 text-center text-gray-300">${getMaterialName(product.material)}</td>
+                                        <td class="p-4 text-center text-gray-700">${getTypeName(product.type)}</td>
                                     `).join('')}
                                 </tr>
                                 <tr>
-                                    <td class="p-4 text-gray-300 font-medium">特色功能</td>
+                                    <td class="p-4 text-gray-700 font-medium">特色功能</td>
                                     ${products.map(product => `
                                         <td class="p-4 text-center">
                                             <div class="flex flex-wrap gap-1 justify-center">
                                                 ${product.features.map(feature => `
-                                                    <span class="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs">${feature}</span>
+                                                    <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">${feature}</span>
                                                 `).join('')}
                                             </div>
                                         </td>
@@ -895,14 +1214,19 @@
                 `;
             }
             
-            function getMaterialName(material) {
+            function getTypeName(type) {
                 const names = {
-                    'tpe': 'TPE材质',
-                    'carbon': '碳纤维',
-                    'abs': 'ABS塑料',
-                    'aluminum': '铝合金'
+                    'mud-flap': '挡泥板',
+                    'air-filter': '空调滤芯',
+                    'floor-mat': '脚垫',
+                    'screen-protector': '屏幕钢化膜',
+                    'wiper': '雨刮器',
+                    'trunk-mat': '后备箱垫',
+                    'pedal': '刹车踏板',
+                    'seat-protector': '座椅防踢垫',
+                    'jack-pad': '千斤顶垫'
                 };
-                return names[material] || material;
+                return names[type] || type;
             }
         }
         
@@ -912,19 +1236,19 @@
             const productsContainer = document.getElementById('products-container');
             
             gridViewBtn.addEventListener('click', function() {
-                gridViewBtn.classList.add('bg-blue-500');
-                gridViewBtn.classList.remove('bg-gray-700');
-                listViewBtn.classList.add('bg-gray-700');
-                listViewBtn.classList.remove('bg-blue-500');
+                gridViewBtn.classList.add('bg-blue-500', 'text-white');
+                gridViewBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                listViewBtn.classList.add('bg-gray-200', 'text-gray-700');
+                listViewBtn.classList.remove('bg-blue-500', 'text-white');
                 
                 productsContainer.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8';
             });
             
             listViewBtn.addEventListener('click', function() {
-                listViewBtn.classList.add('bg-blue-500');
-                listViewBtn.classList.remove('bg-gray-700');
-                gridViewBtn.classList.add('bg-gray-700');
-                gridViewBtn.classList.remove('bg-blue-500');
+                listViewBtn.classList.add('bg-blue-500', 'text-white');
+                listViewBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                gridViewBtn.classList.add('bg-gray-200', 'text-gray-700');
+                gridViewBtn.classList.remove('bg-blue-500', 'text-white');
                 
                 productsContainer.className = 'grid grid-cols-1 gap-4';
             });
