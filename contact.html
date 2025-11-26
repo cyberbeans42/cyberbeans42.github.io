@@ -396,7 +396,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // FAQ Toggle (保留这个折叠功能)
+            // FAQ Toggle
             document.querySelectorAll('.faq-toggle').forEach(toggle => {
                 toggle.addEventListener('click', function() {
                     const content = this.nextElementSibling;
@@ -406,11 +406,50 @@
                 });
             });
 
-            // Contact Form - 普通提交模式 (Standard Submission)
-            // 这是一个最基础的模式，提交后会跳转到 Formsubmit 的页面，
-            // 这样你就能看到是否需要点"我不是机器人"，从而成功激活邮件。
+            // Contact Form Logic (Modified for Formsubmit.co)
             const contactForm = document.getElementById('contact-form');
-            // 我们不再使用 JS 拦截提交，直接让表单自己跳转
+            const statusMsg = document.getElementById('form-status');
+            
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                // Formsubmit.co doesn't require an ID check, but you must ensure the email is activated
+                // after the first test submission.
+
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+                
+                const formData = new FormData(contactForm);
+                
+                try {
+                    // Using Formsubmit.co AJAX endpoint via JSON
+                    const response = await fetch(contactForm.action, {
+                        method: contactForm.method, 
+                        // To prevent redirect and get JSON response, send as JSON with appropriate headers
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(Object.fromEntries(formData))
+                    });
+                    
+                    if (response.ok) {
+                        statusMsg.textContent = "Thanks! Message sent successfully.";
+                        statusMsg.className = "text-center text-sm mt-3 text-green-600 font-bold block";
+                        contactForm.reset();
+                    } else {
+                        throw new Error("Server returned " + response.status);
+                    }
+                } catch (error) {
+                    console.error("Form error:", error);
+                    statusMsg.textContent = "Oops! There was a problem submitting your form.";
+                    statusMsg.className = "text-center text-sm mt-3 text-red-600 font-bold block";
+                }
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
         });
     </script>
 </body>
